@@ -1,13 +1,12 @@
 package org.wr.concurrent;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
 import java.util.function.Function;
 
 import org.junit.Test;
+import org.wr.concurrent.taskbuilder.GraphTaskBuilder;
 
-public class TaskBuilderTest {
+public class GraphTaskBuilderTest {
 
     public static Function<String, Integer> func1 = String::length;
     public static Function<String, Integer> func2 = s -> s.indexOf("qwe");
@@ -18,7 +17,7 @@ public class TaskBuilderTest {
 
     @Test
     public void constructTasks() throws Exception {
-        List<TaskWithDependencies> tasks = TaskBuilder
+        TaskQueue queue = GraphTaskBuilder
                 .create()
                 .add("func1", func1)
                 .add("func2", func2)
@@ -29,6 +28,6 @@ public class TaskBuilderTest {
                 .addDependency("func3", "func4")
                 .build();
 
-        System.out.println(tasks);
+        System.out.println(queue);
     }
 }

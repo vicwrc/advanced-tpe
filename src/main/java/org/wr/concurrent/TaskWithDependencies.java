@@ -8,14 +8,28 @@ import org.wr.concurrent.reducer.StraightForwardReducer;
 
 public class TaskWithDependencies<T, R> {
 
+    public static enum Status {
+        WAITING, PROCESSING, COMPLETE, FAILED
+    }
+
     private final Function<T, R> func;
     private final String name;
     private Set<TaskWithDependencies> toWait = new HashSet<>();
     private Reducer<T> reducer = new StraightForwardReducer<>();
+    private Status status = Status.WAITING;
+
 
     public TaskWithDependencies(Function<T, R> func, String name) {
         this.func = func;
         this.name = name;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public static <K, L> TaskWithDependencies<K, L> create(String name, Function<K, L> func) {
