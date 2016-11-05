@@ -45,6 +45,15 @@ public class TaskBuilder {
         return this;
     }
 
+    public TaskBuilder reduceIn(String child, Reducer reducer) {
+        TaskWithDependencies childTask = tasks.get(child);
+        Preconditions.checkNotNull(childTask);
+
+        childTask.setReducer(reducer);
+
+        return this;
+    }
+
     public TaskBuilder removeDependency(String parent, String child) {
         TaskWithDependencies childTask = tasks.get(child);
         Preconditions.checkNotNull(childTask);

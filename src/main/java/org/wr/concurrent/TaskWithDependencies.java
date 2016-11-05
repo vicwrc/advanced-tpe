@@ -4,11 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
+import org.wr.concurrent.reducer.StraightForwardReducer;
+
 public class TaskWithDependencies<T, R> {
 
     private final Function<T, R> func;
     private final String name;
     private Set<TaskWithDependencies> toWait = new HashSet<>();
+    private Reducer<T> reducer = new StraightForwardReducer<>();
 
     public TaskWithDependencies(Function<T, R> func, String name) {
         this.func = func;
@@ -29,6 +32,14 @@ public class TaskWithDependencies<T, R> {
 
     public Function<T, R> getFunc() {
         return func;
+    }
+
+    public Reducer getReducer() {
+        return reducer;
+    }
+
+    public void setReducer(Reducer reducer) {
+        this.reducer = reducer;
     }
 
     @Override
